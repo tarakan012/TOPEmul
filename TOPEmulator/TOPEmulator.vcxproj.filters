@@ -13,15 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Заголовочные файлы\Crypto">
+      <UniqueIdentifier>{bcafd593-bf18-4140-adc4-06b9ce07861e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="DataTimeToString.h">
@@ -39,7 +39,16 @@
     <ClInclude Include="NetCommand.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="GateServer.h">
+    <ClInclude Include="AccountServer.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="crypt.h">
+      <Filter>Заголовочные файлы\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="des.h">
+      <Filter>Заголовочные файлы\Crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="NetRetCommand.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -56,11 +65,17 @@
     <ClCompile Include="Packet.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="GateServer.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="DataTimeToString.cpp">
       <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountServer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="crypto.cpp">
+      <Filter>Заголовочные файлы\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="des.cpp">
+      <Filter>Заголовочные файлы\Crypto</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

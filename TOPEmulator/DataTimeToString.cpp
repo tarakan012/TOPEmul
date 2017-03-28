@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "DataTimeToString.h"
 
 tm now()

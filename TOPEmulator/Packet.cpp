@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Packet.h"
 
 
@@ -7,6 +6,24 @@ WPacket::WPacket() : m_head(6)
 {
 	m_buffer = new char[64 * 1024];
 	m_wpos = 0;
+}
+WPacket::WPacket(const WPacket & wpkt) : m_head(6)
+{
+	m_buffer = new char[64 * 1024];
+	m_wpos = wpkt.m_wpos;
+	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
+}
+WPacket & WPacket::operator=(const WPacket & wpkt)
+{
+	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
+	m_wpos = wpkt.m_wpos;
+	return *this;
+}
+WPacket & WPacket::operator=(const RPacket & rpkt)
+{
+	m_wpos = rpkt.getDataLen()-em_cmdsize;
+	memcpy(const_cast<char*>(getDataAddr()), rpkt.getDataAddr(), rpkt.getDataLen());
+	return *this;
 }
 bool WPacket::writeCmd(uShort cmd)
 {
@@ -44,10 +61,9 @@ WPacket::~WPacket()
 }
 void WPacket::writeSESS(uint32_t ses)const
 {
-	boost::endian::endian_reverse_inplace<uint32_t>(ses);
 	memcpy(const_cast<char*>(getDataAddr())-sizeof(uint32_t), (char*)&ses, sizeof(uint32_t));
 }
-// RPacket
+//--------------- RPacket ----------------
 uShort RPacket::readCmd()
 {
 	uShort l_cmd;
@@ -56,17 +72,19 @@ uShort RPacket::readCmd()
 	return l_cmd;
 }
 
-RPacket::RPacket() : m_head(0)
+RPacket::RPacket() : m_head(6)
 {
 	m_buffer = new char[64 * 1024];
 	m_rpos = 0;
+	m_len = 0;
+	m_revpos = 0;
 }
 
-cChar * RPacket::readString(uShort * len)
+cChar * RPacket::readString(uShort len)
 {
-	uShort	l_retlen;
+	uShort	l_retlen = 0;
 	cChar * l_ret = readSequence(l_retlen);
-	*len = l_retlen - 1;
+	len = l_retlen - 1;
 	return l_ret;
 }
 
@@ -74,20 +92,47 @@ cChar * RPacket::readSequence(uShort & retlen)
 {
 	cChar * l_retseq = 0;
 	retlen = readShort();
-	l_retseq = getDataAddr() + getDataLen();
+	l_retseq = getDataAddr() + em_cmdsize + m_rpos;
 	m_rpos += retlen;
 	return l_retseq;
 }
 uShort RPacket::readShort()
 {
 	uShort l_retval = 0;
-	memcpy((char*)l_retval, const_cast<char*>(getDataAddr()) + getDataLen(), sizeof(uShort));
+	memcpy((char*)&l_retval, getDataAddr() + em_cmdsize + m_rpos, sizeof(uShort));
 	boost::endian::endian_reverse_inplace<uShort>(l_retval);
 	m_rpos += sizeof(uShort);
 	return l_retval;
 }
 
+uShort RPacket::reverseReadShot()
+{
+	uShort l_retval = 0;
+	m_revpos += sizeof(uShort);
+	std::cout << "m_revpos: " << m_revpos << std::endl;
+	memcpy((char*)&l_retval, getDataAddr() + getDataLen() - m_revpos, sizeof(uShort));
+	std::cout << "l_retval: " << l_retval << std::endl;
+
+	boost::endian::endian_reverse_inplace<uShort>(l_retval);
+	return l_retval;
+}
+
+void RPacket::readPktLen()
+{
+	memcpy((char*)&m_len, const_cast<char*>(getPktAddr()), sizeof(uShort));
+	boost::endian::endian_reverse_inplace<uShort>(m_len);
+}
+
 RPacket::~RPacket()
 {
 	delete[] m_buffer;
+}
+
+RPacket & RPacket::operator=(const WPacket & wpkt)
+{
+	m_rpos = 0;
+	m_revpos = 0;
+	m_len = wpkt.getDataLen() + m_head;
+	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
+	return *this;
 }

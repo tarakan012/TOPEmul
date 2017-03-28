@@ -1,21 +1,27 @@
 // TOPEmulator.cpp: определяет точку входа для консольного приложения.
 //
 
-#include "stdafx.h"
-#include "GateServer.h"
+#include "TCPserver.h"
+
+using namespace std;
 
 int main()
 {
+		cout << "Start Emulator" << endl;
 	try
 	{
-		GateServer gs;
-		int n;
-		std::cin >> n;
+		//g_conpq = new pqxx::connection("dbname=noterius user=nota host=127.0.0.1 password=notadefault");
+		
+		TCPServer<TCPSession> server;
+		server.start_server();
+		
 	}
-	catch (boost::system::error_code ec)
+	catch (const std::exception e)
 	{
+		cerr << "Error: " << e.what() << endl;
 		return EXIT_FAILURE;
 	}
     return EXIT_SUCCESS;
+		
 }
 

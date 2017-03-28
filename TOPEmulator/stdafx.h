@@ -5,14 +5,13 @@
 
 #pragma once
 
-
-
-
-#include "targetver.h"
+//#include "targetver.h"
 #include "boost\asio.hpp"
 #include "boost\endian\conversion.hpp"
 #include "boost\log\trivial.hpp"
+#include "boost\log\sources\global_logger_storage.hpp"
 #include "NetCommand.h"
+#include "NetRetCommand.h"
 #include <stdio.h>
 #include <tchar.h>
 #include <ctime>
@@ -23,7 +22,6 @@
 #include <stdexcept>
 #include <iterator>
 #include <sstream>
-
 #include <memory>
 #include <thread>
 #include <vector>
