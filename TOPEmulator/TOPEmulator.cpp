@@ -10,10 +10,9 @@ int main()
 		cout << "Start Emulator" << endl;
 	try
 	{
-		//g_conpq = new pqxx::connection("dbname=noterius user=nota host=127.0.0.1 password=notadefault");
-		
 		TCPServer<TCPSession> server;
 		server.start_server();
+		for (;;) { Sleep(1); }
 		
 	}
 	catch (const std::exception e)

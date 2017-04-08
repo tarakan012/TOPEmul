@@ -31,6 +31,26 @@ bool WPacket::writeCmd(uShort cmd)
 	memcpy(const_cast<char*>(getDataAddr()), (char*)&cmd, sizeof(uShort));
 	return true;
 }
+bool WPacket::writeChar(uChar ch)
+{
+	memcpy(const_cast<char*>(getDataAddr()) + getDataLen(), (cChar*)&ch, sizeof(uShort));
+	m_wpos += sizeof(uShort);
+	return true;
+}
+bool WPacket::writeShort(uShort sh)
+{
+	boost::endian::endian_reverse_inplace<uShort>(sh);
+	memcpy(const_cast<char*>(getDataAddr())+getDataLen(), (cChar*)&sh, sizeof(uShort));
+	m_wpos += sizeof(uShort);
+	return true;
+}
+bool WPacket::writeLong(uLong lg)
+{
+	boost::endian::endian_reverse_inplace<uLong>(lg);
+	memcpy(const_cast<char*>(getDataAddr()) + getDataLen(), (cChar*)&lg, sizeof(uLong));
+	m_wpos += sizeof(uLong);
+	return true;
+}
 bool WPacket::writeString(cChar * str)
 {
 	return writeSequence(str, strlen(str) + 1);
@@ -40,13 +60,6 @@ bool WPacket::writeSequence(cChar * seq, uShort len)
 	if (!writeShort(len))	return false;
 	memcpy(const_cast<char*>(getDataAddr()) + getDataLen(), seq, len);
 	m_wpos += len;
-	return true;
-}
-bool WPacket::writeShort(uShort sh)
-{
-	boost::endian::endian_reverse_inplace<uShort>(sh);
-	memcpy(const_cast<char*>(getDataAddr())+getDataLen(), (char*)&sh, sizeof(uShort));
-	m_wpos += sizeof(uShort);
 	return true;
 }
 void WPacket::writePktLen()const

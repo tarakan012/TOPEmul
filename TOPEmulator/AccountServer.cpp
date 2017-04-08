@@ -2,7 +2,7 @@
 #include "crypt.h"
 using namespace std;
 
-
+pqxx::connection * g_conpq = new pqxx::connection("dbname=noterius user = nota host=127.0.0.1 password = notadefault");
 
 void AuthThread::queryAccount(RPacket & rpkt,std::string & stime)
 {
@@ -64,4 +64,21 @@ WPacket AuthThread::accountLogin()
 	return wpkt;
 }
 	
+int TBLAccounts::fetchRowByActName(string name)
+{
+	pqxx::work pqwk(*g_conpq);
+	pqxx::result pqres = pqwk.exec("SELECT * FROM public.user where act_name=" + pqwk.quote(name));
+	if (!pqres.empty())
+	{
+		return 1;
+	}
+	return 0;
+}
 
+bool TBLAccounts::updatePassword(int act_id, string password)
+{
+	pqxx::work pqwk(*g_conpq);
+	pqxx::result pqres = pqwk.exec("UPDATE public.account SET password="+ pqwk.quote(password)+" where act_id=" + pqwk.quote(act_id));
+	
+	return true;
+}

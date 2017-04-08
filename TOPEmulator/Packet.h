@@ -15,9 +15,11 @@ public:
 	WPacket & operator=(const WPacket & wpkt);
 	WPacket & operator=(const RPacket & rpkt);
 	bool writeCmd(uShort cmd);
+	bool writeChar(uChar ch);
 	bool writeString(cChar * str);
 	bool writeSequence(cChar * seq, uShort len);
 	bool writeShort(uShort sh);
+	bool writeLong(uLong lg);
 	void writePktLen() const;
 	uShort getPktLen()const { return m_head + em_cmdsize + m_wpos; }
 	cChar * getPktAddr()const { return m_buffer; }

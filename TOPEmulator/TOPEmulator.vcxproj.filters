@@ -51,6 +51,9 @@
     <ClInclude Include="NetRetCommand.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="CompCommand.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -76,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="des.cpp">
       <Filter>Заголовочные файлы\Crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="CompFunc.cpp">
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

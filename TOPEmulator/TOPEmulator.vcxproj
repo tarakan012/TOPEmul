@@ -145,6 +145,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountServer.h" />
+    <ClInclude Include="CompCommand.h" />
     <ClInclude Include="crypt.h" />
     <ClInclude Include="DataTimeToString.h" />
     <ClInclude Include="des.h" />
@@ -157,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccountServer.cpp" />
+    <ClCompile Include="CompFunc.cpp" />
     <ClCompile Include="crypto.cpp" />
     <ClCompile Include="DataTimeToString.cpp" />
     <ClCompile Include="des.cpp" />

@@ -7,6 +7,7 @@
 
 //#include "targetver.h"
 #include "boost\asio.hpp"
+#include "boost\format.hpp"
 #include "boost\endian\conversion.hpp"
 #include "boost\log\trivial.hpp"
 #include "boost\log\sources\global_logger_storage.hpp"
@@ -22,6 +23,7 @@
 #include <stdexcept>
 #include <iterator>
 #include <sstream>
+#include <iomanip>
 #include <memory>
 #include <thread>
 #include <vector>
@@ -30,6 +32,8 @@ using namespace boost;
 
 using uShort = unsigned short;
 using cChar = const char;
-
+using uChar = unsigned char;
+using uLong = unsigned int;
+using BYTE = unsigned char;
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

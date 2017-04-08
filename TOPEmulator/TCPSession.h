@@ -26,9 +26,9 @@ public:
 	void onProccesData(RPacket & rpkt);
 	void onConnected(WPacket & lpkt);
 	bool getChaFromDB(WPacket & pkt);
-	std::unique_ptr<char>& receive_buffer()
+	char * get_receive_buffer()
 	{
-		return std::move(receive_buffer_);
+		return receive_buffer_.get();
 	}
 	void disconect()
 	{
@@ -36,10 +36,10 @@ public:
 	}
 private:
 	asio::io_service & service_;
-	asio::io_service::work work_;
 	asio::ip::tcp::socket socket_;
-	std::unique_ptr<char> receive_buffer_;
+	std::unique_ptr<char[]> receive_buffer_;
 	AuthThread m_AccAuth;
+	TBLAccounts m_tblaccounts;
 	uShort m_version;
 	std::string m_str_time;
 };

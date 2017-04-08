@@ -5,6 +5,8 @@
 
 using namespace std;
 
+extern pqxx::connection * g_conpq;
+
 struct AccountInfo
 {
 	uShort nStatus;
@@ -19,14 +21,22 @@ struct AccountInfo
 class AuthThread
 {
 public:
-	AuthThread() :g_conpq(new pqxx::connection("dbname=noterius user = nota host=127.0.0.1 password = notadefault")) {}
+	AuthThread() {} //:g_conpq(new pqxx::connection("dbname=noterius user = nota host=127.0.0.1 password = notadefault")) {}
 	void queryAccount(RPacket&, std::string&);
 	WPacket accountLogin();
 	//~AuthThread();
 
 private:
-	pqxx::connection * g_conpq;
+	//pqxx::connection * g_conpq;
 	AccountInfo m_AcctInfo;
+};
+
+class TBLAccounts
+{
+public:
+	int fetchRowByActName(string account);
+	bool updatePassword(int act_id, string password);
+private:
 };
 
 
