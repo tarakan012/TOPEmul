@@ -4,13 +4,19 @@
 //
 
 #pragma once
-
-//#include "targetver.h"
+#define NOMINMAX
+#include "targetver.h"
+#include "LogHundler.h"
 #include "boost\asio.hpp"
 #include "boost\format.hpp"
 #include "boost\endian\conversion.hpp"
 #include "boost\log\trivial.hpp"
 #include "boost\log\sources\global_logger_storage.hpp"
+#include "CommCommand.h"
+#include "Player.h"
+#include"Typedef.h"
+#include "Packet.h"
+#include "pqxx\pqxx"
 #include "NetCommand.h"
 #include "NetRetCommand.h"
 #include <stdio.h>
@@ -30,10 +36,5 @@
 
 using namespace boost;
 
-using uShort = unsigned short;
-using cChar = const char;
-using uChar = unsigned char;
-using uLong = unsigned int;
-using BYTE = unsigned char;
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

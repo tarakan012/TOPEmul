@@ -7,13 +7,14 @@ using namespace std;
 
 int main()
 {
-		cout << "Start Emulator" << endl;
+	cout << "Start Emulator..." << endl;
 	try
 	{
+		CLogHandler::GetInstance().Init();
+		LOG_INFO("Log_info %d", 10);
 		TCPServer<TCPSession> server;
 		server.start_server();
 		for (;;) { Sleep(1); }
-		
 	}
 	catch (const std::exception e)
 	{

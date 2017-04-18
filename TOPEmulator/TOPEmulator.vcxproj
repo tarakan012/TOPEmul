@@ -88,13 +88,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\libpqxx-4.0.1\include;C:\boost_1_63_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\libp7_v4.2\Shared\Platforms\Windows_x86;C:\libp7_v4.2\Shared;C:\libp7_v4.2\Headers;C:\Program Files (x86)\libpqxx-4.0.1\include;C:\boost_1_63_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>stdafx.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>C:\Program Files (x86)\libpqxx-4.0.1\lib;C:\boost_1_63_0\vs2017\Win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libpqxxD.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\libp7_v4.2\Binaries;C:\Program Files (x86)\libpqxx-4.0.1\lib;C:\boost_1_63_0\vs2017\Win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>P7x32d.lib;libpqxxD.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -142,26 +142,40 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
+    <Text Include="TechnicalTask.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountServer.h" />
-    <ClInclude Include="CompCommand.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="CommCommand.h" />
+    <ClInclude Include="CommFunc.h" />
     <ClInclude Include="crypt.h" />
     <ClInclude Include="DataTimeToString.h" />
+    <ClInclude Include="DBConnect.h" />
     <ClInclude Include="des.h" />
+    <ClInclude Include="ItemAttr.h" />
+    <ClInclude Include="ItemContent.h" />
+    <ClInclude Include="Kitbag.h" />
+    <ClInclude Include="LogHundler.h" />
     <ClInclude Include="NetCommand.h" />
     <ClInclude Include="NetRetCommand.h" />
     <ClInclude Include="Packet.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TCPServer.h" />
     <ClInclude Include="TCPSession.h" />
+    <ClInclude Include="Typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccountServer.cpp" />
-    <ClCompile Include="CompFunc.cpp" />
+    <ClCompile Include="CharacterCmd.cpp" />
+    <ClCompile Include="CharacterPacket.cpp" />
+    <ClCompile Include="CommFunc.cpp" />
     <ClCompile Include="crypto.cpp" />
     <ClCompile Include="DataTimeToString.cpp" />
+    <ClCompile Include="DBConnect.cpp" />
     <ClCompile Include="des.cpp" />
+    <ClCompile Include="LogHundler.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

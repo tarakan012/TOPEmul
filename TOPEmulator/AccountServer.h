@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Packet.h"
-#include "pqxx\pqxx"
 
 using namespace std;
 
@@ -22,7 +20,7 @@ class AuthThread
 {
 public:
 	AuthThread() {} //:g_conpq(new pqxx::connection("dbname=noterius user = nota host=127.0.0.1 password = notadefault")) {}
-	void queryAccount(RPacket&, std::string&);
+	void queryAccount(CPlayer * ply,RPacket & rpkt);
 	WPacket accountLogin();
 	//~AuthThread();
 
@@ -30,13 +28,3 @@ private:
 	//pqxx::connection * g_conpq;
 	AccountInfo m_AcctInfo;
 };
-
-class TBLAccounts
-{
-public:
-	int fetchRowByActName(string account);
-	bool updatePassword(int act_id, string password);
-private:
-};
-
-

@@ -1,14 +1,17 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26228.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TOPEmulator", "TOPEmulator\TOPEmulator.vcxproj", "{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "..\..\..\..\Downloads\Fixed Server Fiile\Files\Server\GameServer\Proj\GameServer.vcxproj", "{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		IOCP_Release|x64 = IOCP_Release|x64
+		IOCP_Release|x86 = IOCP_Release|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
@@ -17,10 +20,23 @@ Global
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Debug|x64.Build.0 = Debug|x64
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Debug|x86.ActiveCfg = Debug|Win32
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Debug|x86.Build.0 = Debug|Win32
+		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.IOCP_Release|x64.ActiveCfg = Release|x64
+		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.IOCP_Release|x64.Build.0 = Release|x64
+		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.IOCP_Release|x86.ActiveCfg = Release|Win32
+		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.IOCP_Release|x86.Build.0 = Release|Win32
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Release|x64.ActiveCfg = Release|x64
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Release|x64.Build.0 = Release|x64
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Release|x86.ActiveCfg = Release|Win32
 		{38C2D0CC-E90C-425C-878D-3C5DEBBB995B}.Release|x86.Build.0 = Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Debug|x64.ActiveCfg = Debug|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Debug|x86.ActiveCfg = Debug|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Debug|x86.Build.0 = Debug|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.IOCP_Release|x64.ActiveCfg = IOCP_Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.IOCP_Release|x86.ActiveCfg = IOCP_Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.IOCP_Release|x86.Build.0 = IOCP_Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Release|x64.ActiveCfg = Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Release|x86.ActiveCfg = Release|Win32
+		{525C57F1-D1F3-4AD2-B31D-F63CEEBA8BA6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
