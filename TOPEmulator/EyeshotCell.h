@@ -11,6 +11,7 @@ public:
 	void AddEntity(CCharacter * pCCha);
 private:
 	std::vector<CCharacter *> m_VecCha;
+	long m_lChaCount{0};
 
 };
 

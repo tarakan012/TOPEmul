@@ -21,6 +21,7 @@ void CCharacter::WriteBaseInfo(WPACKET & pkt)
 {
 	CPlayer * pCPlayer = GetPlayer();
 	WRITE_LONG(pkt, 1); // 4.22.17 12:48 -  edit 4 to 1 //++
+	//this->SetID(m_pPlayer->m_bpcurrcha);
 	WRITE_LONG(pkt, GetID()); //id ++
 	if (true)//pCPlayer
 	{
@@ -51,7 +52,7 @@ void CCharacter::WriteBaseInfo(WPACKET & pkt)
 	//write_side_info
 	WRITE_CHAR(pkt, 0); // sideid +
 	//write_event_info
-	WRITE_LONG(pkt, 123); //id +
+	WRITE_LONG(pkt, GetID()); //id +
 	WRITE_CHAR(pkt, 1);// +
 	//cevent::write_info
 	WRITE_SHORT(pkt, 0); //m_usID +

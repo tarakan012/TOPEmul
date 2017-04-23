@@ -36,7 +36,7 @@ bool CCharacter::Cmd_EnterMap(WPACKET & wpkt)
 	//WRITE_LONG(wpkt, 0);
 	WRITE_LONG(wpkt, 123);
 	Square l_shape{ {224700,224700}, 0 };
-	pCMap->Enter(&l_shape, this);
+	//pCMap->Enter(&l_shape, this);
 
 	return true;
 }

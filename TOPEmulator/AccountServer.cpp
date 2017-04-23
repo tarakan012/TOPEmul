@@ -11,11 +11,11 @@ void AuthThread::queryAccount(CPlayer * ply, RPacket & rpkt)
 	string szLocale = "";
 	uShort usBufLen = 0;
 
-	szLocale = rpkt.readString(); //
-	pName = rpkt.readString();
+	szLocale = rpkt.ReadString(); //
+	pName = rpkt.ReadString();
 	pPass = rpkt.ReadSequence(usBufLen);
 
-	string strMAC = rpkt.readString();
+	string strMAC = rpkt.ReadString();
 	//BOOST_LOG_TRIVIAL(debug) << "PASSWD " << strEncodePass;
 	ply->m_actname = m_AcctInfo.strName = pName;
 	m_AcctInfo.strEncodePwd = pPass;

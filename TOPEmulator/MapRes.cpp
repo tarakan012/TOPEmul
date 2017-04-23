@@ -1,5 +1,10 @@
 #include "stdafx.h"
 #include "MapRes.h"
+#include"SubMap.h"
+CMapRes::CMapRes()
+{
+	m_pCMapCopy = new CSubMap();
+}
 
 void CMapRes::Init()
 {

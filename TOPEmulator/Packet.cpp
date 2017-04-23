@@ -107,6 +107,7 @@ RPacket & RPacket::operator=(const WPacket & wpkt)
 	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
 	return *this;
 }
+
 RPacket::RPacket(const WPacket & wpkt) : m_head(6)
 {
 	m_buffer = new char[64 * 1024];
@@ -123,7 +124,7 @@ uShort RPacket::readCmd()
 	boost::endian::endian_reverse_inplace<uShort>(l_cmd);
 	return l_cmd;
 }
-cChar * RPacket::readString(uShort len)
+cChar * RPacket::ReadString(uShort len)
 {
 	uShort	l_retlen = 0;
 	cChar * l_ret = ReadSequence(l_retlen);

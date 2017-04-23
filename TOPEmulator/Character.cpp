@@ -5,7 +5,7 @@ void CCharacter::OnBeginSeen(CCharacter * pCCa)
 {
 	WPACKET pk;
 	WRITE_CMD(pk, CMD_SC_CHABEGINSEE);
-	WRITE_CHAR(pk, enumENTITY_SEEN_NEW);
+	WRITE_CHAR(pk, enameNTITY_SEEN_NEW);
 	WriteBaseInfo(pk);
 	BYTE ByState = 0, byShowType = 0;
 	WRITE_CHAR(pk, byShowType);

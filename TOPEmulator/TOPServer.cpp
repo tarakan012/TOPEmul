@@ -1,7 +1,7 @@
 #include "TOPServer.h"
 
 TOPServer::TOPServer()
-	: TCPServer()
+	: TCPServer(2)
 {
 }
 bool TOPServer::Init()
@@ -72,7 +72,7 @@ bool TOPServer::Init()
 //	case CMD_CS_CREATE_PASSWORD2:
 //	{
 //		WPACKET wpkt;
-//		string strPassword = rpkt.readString();
+//		string strPassword = rpkt.ReadString();
 //		m_tblaccounts.UpdatePassword(m_player->m_acctLoginID, strPassword);
 //		wpkt.WriteCmd(CMD_SC_CREATEPASSWORD2);
 //		wpkt.WriteShort(ERR_SUCCESS);
@@ -82,7 +82,7 @@ bool TOPServer::Init()
 //	/*case CMD_CS_UPDATE_PASSWORD2:
 //	{
 //	WPACKET wpkt;
-//	string strPassword = rpkt.readString();
+//	string strPassword = rpkt.ReadString();
 //	m_tblaccounts.UpdatePassword(m_player->m_acctLoginID, strPassword);
 //	wpkt.WriteCmd(CMD_SC_CREATEPASSWORD2);
 //	wpkt.WriteShort(ERR_SUCCESS);
@@ -92,8 +92,8 @@ bool TOPServer::Init()
 //	case CMD_CS_NEWCHA:
 //	{
 //		uShort	l_len = 0;
-//		cChar * l_chaname = rpkt.readString(l_len);
-//		cChar * l_birth = rpkt.readString(l_len);
+//		cChar * l_chaname = rpkt.ReadString(l_len);
+//		cChar * l_birth = rpkt.ReadString(l_len);
 //		string strName(l_chaname);
 //		string strBirth(l_birth);
 //		const LOOK * look = reinterpret_cast<const LOOK*>(rpkt.readSequence(l_len));
@@ -115,7 +115,7 @@ bool TOPServer::Init()
 //			strChaIDs = m_tblaccounts.m_chaIDs + to_string(m_tblcharacters.m_chaid) + ";";
 //		}
 //
-//		m_player->m_chaid[m_player->m_chanam] = m_tblcharacters.m_chaid;
+//		m_player->m_chaid[m_player->m_chanum] = m_tblcharacters.m_chaid;
 //		m_tblaccounts.UpdateRow(m_player->m_acctLoginID, strChaIDs);
 //		WPACKET wpkt;
 //		wpkt.WriteShort(ERR_SUCCESS);

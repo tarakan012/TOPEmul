@@ -15,7 +15,7 @@ int main()
 	try
 	{
 		g_pCGameApp = new CGameApp();
-		g_pCGameApp->IniMap();
+		g_pCGameApp->InitMap();
 		if (nullptr == g_pCGameApp->FindMapByName("garner"))
 		{
 			throw std::invalid_argument("NO find Map");

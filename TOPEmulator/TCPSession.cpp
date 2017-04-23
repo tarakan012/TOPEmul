@@ -140,15 +140,17 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		}
 		case CMD_CS_BGNPLAY:
 		{
+			short l_len = 0;
+			cChar * l_chaname = READ_STRING(rpkt);
+			m_player->m_bpcurrcha = m_player->FindIndexByChaName(l_chaname);
 			CCharacter l_cha;
-			CPlayer l_ply;
-			l_ply.SetSession(this);
-			l_cha.SetPlayer(&l_ply);
+			m_player->SetSession(this);
+			l_cha.SetPlayer(m_player);
 			WPACKET wpkt;
 			l_cha.Cmd_EnterMap(wpkt);
 			sendData(wpkt);
-			l_cha.SetID(3);
-			l_cha.OnBeginSeen(0);
+			//l_cha.SetID(3);
+			//l_cha.OnBeginSeen(0);
 			break;
 		}
 		case CMD_CS_LOGIN : 
@@ -188,7 +190,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		case CMD_CS_CREATE_PASSWORD2 :
 		{
 			WPACKET wpkt;
-			string strPassword = rpkt.readString();
+			string strPassword = rpkt.ReadString();
 			m_tblaccounts.UpdatePassword(m_player->m_acctLoginID, strPassword);
 			wpkt.WriteCmd(CMD_SC_CREATEPASSWORD2);
 			wpkt.WriteShort(ERR_SUCCESS);
@@ -198,7 +200,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		/*case CMD_CS_UPDATE_PASSWORD2:
 		{
 			WPACKET wpkt;
-			string strPassword = rpkt.readString();
+			string strPassword = rpkt.ReadString();
 			m_tblaccounts.UpdatePassword(m_player->m_acctLoginID, strPassword);
 			wpkt.WriteCmd(CMD_SC_CREATEPASSWORD2);
 			wpkt.WriteShort(ERR_SUCCESS);
@@ -208,8 +210,8 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		case CMD_CS_NEWCHA :
 		{
 			uShort	l_len = 0;
-			cChar * l_chaname = rpkt.readString(l_len);
-			cChar * l_birth = rpkt.readString(l_len);
+			cChar * l_chaname = rpkt.ReadString(l_len);
+			cChar * l_birth = rpkt.ReadString(l_len);
 			string strName(l_chaname);
 			string strBirth(l_birth);
 			const LOOK * look = reinterpret_cast<const LOOK*>(rpkt.ReadSequence(l_len));
@@ -231,7 +233,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 				strChaIDs = m_tblaccounts.m_chaIDs + to_string(m_tblcharacters.m_chaid) + ";";
 			}
 
-			m_player->m_chaid[m_player->m_chanam] = m_tblcharacters.m_chaid;
+			m_player->m_chaid[m_player->m_chanum] = m_tblcharacters.m_chaid;
 			m_tblaccounts.UpdateRow(m_player->m_acctLoginID, strChaIDs);
 			WPACKET wpkt;
 			wpkt.WriteShort(ERR_SUCCESS);
@@ -263,10 +265,10 @@ bool TCPSession::GetChaFromDB(CPlayer * ply,WPACKET & pkt)
 		string l_strChaIDs = m_tblaccounts.m_chaIDs;
 		auto world_begin = std::sregex_iterator(l_strChaIDs.begin(), l_strChaIDs.end(), regex);
 		auto world_end = std::sregex_iterator();
-		ply->m_chanam = std::distance(world_begin,world_end);
+		ply->m_chanum = std::distance(world_begin,world_end);
 		ply->m_password = m_tblaccounts.m_password;
-		pkt.WriteChar(ply->m_chanam);
-		for (size_t i = 0; i < ply->m_chanam; ++i)
+		pkt.WriteChar(ply->m_chanum);
+		for (size_t i = 0; i < ply->m_chanum; ++i)
 		{
 			ply->m_chaid[i] = SRegIterInt(world_begin++);
 			if (!ply->m_chaid[i])
@@ -292,4 +294,5 @@ bool TCPSession::GetChaFromDB(CPlayer * ply,WPACKET & pkt)
 	}
 	return false;
 }
+
 

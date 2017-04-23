@@ -65,7 +65,7 @@ public:
 	RPacket(const WPacket& wpkt);
 	~RPacket();
 	RPacket& operator=(const WPacket& wpkt);
-	cChar *	readString(uShort len = 0);
+	cChar *	ReadString(uShort len = 0);
 	cChar *	ReadSequence(uShort &retlen);
 	uShort readShort();
 	uLong ReadLong();

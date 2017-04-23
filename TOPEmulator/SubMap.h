@@ -6,6 +6,7 @@
 class CSubMap
 {
 public:
+	CSubMap();
 	bool Enter(Square * pSEntShape, CEntity * ent, cLong clSearchRadius = 40 * 100);
 	Rect GetEyeshot(Point & pt)const;
 	short GetEyeshotCellWidth(void)const { return m_pCMapRes->m_csEyeshotCellWidth; }
@@ -14,5 +15,5 @@ public:
 	Rect GetRange()const;
 private:
 	CMapRes *  m_pCMapRes;
-	CEyeshotCell ** m_pCEyeshotCell;
+	CEyeshotCell m_pCEyeshotCell[30][30];
 };

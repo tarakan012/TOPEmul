@@ -7,7 +7,7 @@ class CMapRes
 {
 public:
 	enum{ m_emeyeshotwidth = 2 };
-	//CMapRes();
+	CMapRes();
 	void Init();
 	Rect GetRange()const { return m_SRange; }
 	CSubMap * GetCopy(void)const { return m_pCMapCopy; }
