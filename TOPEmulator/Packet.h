@@ -24,10 +24,11 @@ class WPacket
 {
 public:
 	WPacket();
-	WPacket(const WPacket &wpkt);
-		
-	WPacket(const RPacket &rpk);
+	WPacket(const WPacket & wpkt);
+	WPacket(WPacket && wpkt);
 	WPacket & operator=(const WPacket & wpkt);
+	WPacket & operator=(WPacket && wpkt);
+	WPacket(const RPacket &rpk);
 	WPacket & operator=(const RPacket & rpkt);
 	bool WriteCmd(uShort cmd);
 	bool WriteChar(uChar ch);
@@ -65,10 +66,12 @@ public:
 	~RPacket();
 	RPacket& operator=(const WPacket& wpkt);
 	cChar *	readString(uShort len = 0);
-	cChar *	readSequence(uShort &retlen);
+	cChar *	ReadSequence(uShort &retlen);
+	uShort readShort();
+	uLong ReadLong();
+	uChar ReadChar();
 	uShort readCmd();
 	uShort hasData()const { return (m_len > (m_head + em_cmdsize)) ? (m_len - m_head - em_cmdsize): 0; }
-	uShort readShort();
 	uShort reverseReadShot();
 	void readPktLen();
 	void WritePktLen(uShort len);

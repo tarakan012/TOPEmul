@@ -146,6 +146,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AccountServer.h" />
+    <ClInclude Include="Action.h" />
+    <ClInclude Include="EyeshotCell.h" />
+    <ClInclude Include="ChaAttr.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CommCommand.h" />
     <ClInclude Include="CommFunc.h" />
@@ -153,21 +156,33 @@
     <ClInclude Include="DataTimeToString.h" />
     <ClInclude Include="DBConnect.h" />
     <ClInclude Include="des.h" />
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="FightAble.h" />
+    <ClInclude Include="GameApp.h" />
     <ClInclude Include="ItemAttr.h" />
     <ClInclude Include="ItemContent.h" />
     <ClInclude Include="Kitbag.h" />
     <ClInclude Include="LogHundler.h" />
+    <ClInclude Include="MapRes.h" />
+    <ClInclude Include="MoveAble.h" />
     <ClInclude Include="NetCommand.h" />
     <ClInclude Include="NetRetCommand.h" />
     <ClInclude Include="Packet.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Point.h" />
+    <ClInclude Include="Singleton.h" />
+    <ClInclude Include="Skillbag.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="SubMap.h" />
     <ClInclude Include="TCPServer.h" />
     <ClInclude Include="TCPSession.h" />
+    <ClInclude Include="TOPServer.h" />
     <ClInclude Include="Typedef.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AccountServer.cpp" />
+    <ClCompile Include="Action.cpp" />
+    <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterCmd.cpp" />
     <ClCompile Include="CharacterPacket.cpp" />
     <ClCompile Include="CommFunc.cpp" />
@@ -175,7 +190,13 @@
     <ClCompile Include="DataTimeToString.cpp" />
     <ClCompile Include="DBConnect.cpp" />
     <ClCompile Include="des.cpp" />
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="EyeshotCell.cpp" />
+    <ClCompile Include="FightAble.cpp" />
+    <ClCompile Include="GameApp.cpp" />
     <ClCompile Include="LogHundler.cpp" />
+    <ClCompile Include="MapRes.cpp" />
+    <ClCompile Include="MoveAble.cpp" />
     <ClCompile Include="Packet.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -183,8 +204,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="SubMap.cpp" />
+    <ClCompile Include="TCPServer.cpp" />
     <ClCompile Include="TCPSession.cpp" />
-    <ClCompile Include="TOPEmulator.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="TOPServer.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

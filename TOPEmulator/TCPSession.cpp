@@ -1,9 +1,10 @@
 #include "TCPSession.h"
+#include "TOPServer.h"
 #include "Character.h"
-
 #include "DataTimeToString.h"
 #include "CommFunc.h"
 #include <regex>
+#include "Point.h"
 
 char pong[] = { '0','2'};
 
@@ -27,19 +28,20 @@ TCPSession::TCPSession(boost::asio::io_service & service)
 	, socket_(service)
 	, receive_buffer_(new char[64 * 1024]())
 	, m_player(nullptr)
+	, m_topsvr(nullptr)
 {
 
 }
-void TCPSession::start()
+void TCPSession::Start(TOPServer * topsvr)
 {
-	//BOOST_LOG_TRIVIAL(debug) << "IP: " << getPeerIP() << " Port: " << socket_.remote_endpoint().port();
+	m_topsvr = topsvr;
 	WPACKET l_wpt;
-	onConnected(l_wpt);
+	OnConnected(l_wpt);
 	sendData(l_wpt);
 	read_packet_len();
 }
 
-void TCPSession::onConnected(WPACKET & lpkt)
+void TCPSession::OnConnected(WPACKET & lpkt)
 {
 	m_player = new CPlayer;
 	lpkt.WriteCmd(CMD_SC_CHAPSTR);
@@ -51,9 +53,10 @@ void TCPSession::sendData(WPACKET & wpkt)
 {
 	wpkt.WriteSESS(128);
 	wpkt.WritePktLen();
-	outHexByCout(wpkt.getPktAddr(), wpkt.getPktLen());
-	asio::async_write(socket_, asio::buffer(wpkt.getPktAddr(), wpkt.getPktLen()), [](
-		boost::system::error_code const & error, size_t bytes_xfer){});
+	asio::async_write(socket_, asio::buffer(wpkt.getPktAddr(), wpkt.getPktLen()), [wpkt](boost::system::error_code const & error, size_t bytes_xfer)
+	{
+		outHexByCout(wpkt.getPktAddr(), wpkt.getPktLen());
+	});
 }
 
 void TCPSession::read_packet_len()
@@ -104,6 +107,32 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 	l_cmd = rpkt.readCmd();
 	switch (l_cmd)
 	{
+	case CMD_CS_BEGINACTION :
+	{
+		uLong ulWorldID = READ_LONG(rpkt);
+		uLong ulPacketID = READ_LONG(rpkt);
+		char chActionType = READ_CHAR(rpkt);
+		uShort usTurnNum = 0;
+		cChar * pData = READ_SEQ(rpkt, usTurnNum);
+		Point Path[32];
+		char chPointNum = char(usTurnNum / sizeof(Point));
+		memcpy(Path, pData, chPointNum * sizeof(Point));
+		CCharacter l_cha;
+		DWORD m_dwPing =100;
+//		l_cha.Cmd_BeginMove(m_dwPing, Path, chPointNum);
+//		sendData(l_cha.GetNotiWPacketForSend());
+
+		WPACKET pk;
+		WRITE_CMD(pk, CMD_SC_NOTIACTION);
+		WRITE_LONG(pk, 123);//id
+		WRITE_LONG(pk, ulPacketID);//idpacket
+		WRITE_CHAR(pk, enumACTION_MOVE);
+		WRITE_SHORT(pk, 1);
+		WRITE_SHORT(pk, 1);//stop
+		WRITE_SEQ(pk, (cChar *)Path, chPointNum * sizeof(Point));
+		sendData(pk);
+		break;
+	}
 		case CMD_CS_LOGOUT :
 		{
 			this->close();
@@ -112,9 +141,14 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		case CMD_CS_BGNPLAY:
 		{
 			CCharacter l_cha;
+			CPlayer l_ply;
+			l_ply.SetSession(this);
+			l_cha.SetPlayer(&l_ply);
 			WPACKET wpkt;
 			l_cha.Cmd_EnterMap(wpkt);
 			sendData(wpkt);
+			l_cha.SetID(3);
+			l_cha.OnBeginSeen(0);
 			break;
 		}
 		case CMD_CS_LOGIN : 
@@ -139,10 +173,10 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 			wpkt.WriteSequence(l_key, 10); // 
 			GetChaFromDB(m_player, wpkt);
 			BYTE byPassword = 1; 
-			if (m_player->m_password == "0")
+			/*if (m_player->m_password == "0")
 			{
 				byPassword = 0;
-			}
+			}*/
 			wpkt.WriteCmd(CMD_SC_LOGIN); //+
 			wpkt.WriteChar(byPassword); //+
 			wpkt.WriteLong(em_comm_enc); //+
@@ -178,7 +212,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 			cChar * l_birth = rpkt.readString(l_len);
 			string strName(l_chaname);
 			string strBirth(l_birth);
-			const LOOK * look = reinterpret_cast<const LOOK*>(rpkt.readSequence(l_len));
+			const LOOK * look = reinterpret_cast<const LOOK*>(rpkt.ReadSequence(l_len));
 			if (l_len != sizeof(LOOK)) 
 			{
 

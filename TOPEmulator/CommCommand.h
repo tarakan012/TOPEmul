@@ -27,3 +27,25 @@ struct stNetChangeChaPart
 	};
 } LOOK;
 #pragma pack(pop)
+
+enum EMoveState
+{
+	enumMSTATE_ON = 0x01,
+	enumMSTATE_ARRIVE = 0x01
+};
+
+enum EActionType
+{
+	enumACTION_NONE = 0,
+	enumACTION_MOVE
+};
+
+enum EEntitySeenType
+{
+	enumENTITY_SEEN_NEW = 0
+};
+
+enum EPoseState
+{
+	enumPoseStand = 0
+};

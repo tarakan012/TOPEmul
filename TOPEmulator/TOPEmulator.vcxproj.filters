@@ -16,6 +16,12 @@
     <Filter Include="Заголовочные файлы\Crypto">
       <UniqueIdentifier>{bcafd593-bf18-4140-adc4-06b9ce07861e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\TCP">
+      <UniqueIdentifier>{96309afa-9b0b-48ea-b90c-91ad144ff565}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Until">
+      <UniqueIdentifier>{66a2c5b7-2784-41f2-b07f-b4ac55972a10}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -23,15 +29,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="DataTimeToString.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TCPServer.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="TCPSession.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Packet.h">
@@ -70,24 +67,69 @@
     <ClInclude Include="CommCommand.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="LogHundler.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="Kitbag.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Skillbag.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveAble.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Action.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="FightAble.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="ChaAttr.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="SubMap.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="MapRes.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPServer.h">
+      <Filter>Заголовочные файлы\TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="TCPSession.h">
+      <Filter>Заголовочные файлы\TCP</Filter>
+    </ClInclude>
+    <ClInclude Include="TOPServer.h">
+      <Filter>Заголовочные файлы\TCP</Filter>
+    </ClInclude>
     <ClInclude Include="Typedef.h">
+      <Filter>Заголовочные файлы\Until</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Заголовочные файлы\Until</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTimeToString.h">
+      <Filter>Заголовочные файлы\Until</Filter>
+    </ClInclude>
+    <ClInclude Include="LogHundler.h">
+      <Filter>Заголовочные файлы\Until</Filter>
+    </ClInclude>
+    <ClInclude Include="EyeshotCell.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="GameApp.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="TOPEmulator.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="TCPSession.cpp">
@@ -121,6 +163,42 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="CharacterCmd.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="TOPServer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPServer.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Action.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveAble.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="FightAble.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="SubMap.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="MapRes.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="EyeshotCell.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>

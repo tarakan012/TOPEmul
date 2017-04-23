@@ -13,7 +13,7 @@ void AuthThread::queryAccount(CPlayer * ply, RPacket & rpkt)
 
 	szLocale = rpkt.readString(); //
 	pName = rpkt.readString();
-	pPass = rpkt.readSequence(usBufLen);
+	pPass = rpkt.ReadSequence(usBufLen);
 
 	string strMAC = rpkt.readString();
 	//BOOST_LOG_TRIVIAL(debug) << "PASSWD " << strEncodePass;

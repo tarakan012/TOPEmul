@@ -16,6 +16,7 @@
 #include "Player.h"
 #include"Typedef.h"
 #include "Packet.h"
+#include "Point.h"
 #include "pqxx\pqxx"
 #include "NetCommand.h"
 #include "NetRetCommand.h"

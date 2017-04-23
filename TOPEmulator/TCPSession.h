@@ -3,11 +3,14 @@
 
 #include "AccountServer.h"
 #include "DBConnect.h"
+//#include "TOPServer.h"
 
+class TOPServer;
 class TCPSession : public std::enable_shared_from_this<TCPSession>
 {
 public:
 	TCPSession(boost::asio::io_service & service);
+	void Start(TOPServer * topsvr);
 	~TCPSession();
 	boost::asio::ip::tcp::socket & socket()
 	{
@@ -25,13 +28,12 @@ public:
 	{
 		socket_.close();
 	}
-	void start();
-	void sendData(WPacket & wpkt);
+	void sendData(WPACKET & wpkt);
 	void read_packet_len();
 	void read_packet();
 	void OnProccesData(RPacket & rpkt);
-	void onConnected(WPacket & lpkt);
-	bool GetChaFromDB(CPlayer * ply,WPacket & pkt);
+	void OnConnected(WPACKET & lpkt);
+	bool GetChaFromDB(CPlayer * ply, WPACKET & pkt);
 private:
 	asio::io_service & service_;
 	asio::ip::tcp::socket socket_;
@@ -40,4 +42,5 @@ private:
 	TBLAccounts m_tblaccounts;
 	TBLCharacters m_tblcharacters;
 	CPlayer * m_player;
+	TOPServer * m_topsvr;
 };

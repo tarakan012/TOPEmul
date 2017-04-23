@@ -1,6 +1,5 @@
 #include "Packet.h"
 
-
 //WPacket
 WPacket::WPacket() : m_head(6)
 {
@@ -13,9 +12,23 @@ WPacket::WPacket(const WPacket & wpkt) : m_head(6)
 	m_wpos = wpkt.m_wpos;
 	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
 }
+WPacket::WPacket(WPacket && wpkt) : m_head(6)
+{
+	m_buffer = wpkt.m_buffer;
+	wpkt.m_buffer = nullptr;
+	m_wpos = wpkt.m_wpos;
+}
 WPacket & WPacket::operator=(const WPacket & wpkt)
 {
 	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
+	m_wpos = wpkt.m_wpos;
+	return *this;
+}
+WPacket & WPacket::operator=(WPacket && wpkt)
+{
+	delete [] m_buffer;
+	m_buffer = wpkt.m_buffer;
+	wpkt.m_buffer = nullptr;
 	m_wpos = wpkt.m_wpos;
 	return *this;
 }
@@ -113,12 +126,12 @@ uShort RPacket::readCmd()
 cChar * RPacket::readString(uShort len)
 {
 	uShort	l_retlen = 0;
-	cChar * l_ret = readSequence(l_retlen);
+	cChar * l_ret = ReadSequence(l_retlen);
 	len = l_retlen - 1;
 	return l_ret;
 }
 
-cChar * RPacket::readSequence(uShort & retlen)
+cChar * RPacket::ReadSequence(uShort & retlen)
 {
 	cChar * l_retseq = 0;
 	retlen = readShort();
@@ -134,6 +147,25 @@ uShort RPacket::readShort()
 	m_rpos += sizeof(uShort);
 	return l_retval;
 }
+
+uLong RPacket::ReadLong()
+{
+	uLong l_retval = 0;
+	memcpy((char*)&l_retval, getDataAddr() + em_cmdsize + m_rpos, sizeof(uLong));
+	boost::endian::endian_reverse_inplace<uLong>(l_retval);
+	m_rpos += sizeof(uLong);
+	return l_retval;
+}
+
+uChar RPacket::ReadChar()
+{
+	uLong l_retval = 0;
+	memcpy((char*)&l_retval, getDataAddr() + em_cmdsize + m_rpos, sizeof(uChar));
+	m_rpos += sizeof(uChar);
+	return l_retval;
+}
+
+
 
 uShort RPacket::reverseReadShot()
 {
