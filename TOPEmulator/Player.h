@@ -2,15 +2,19 @@
 
 //#include "TCPSession.h"
 
-using namespace std;
-
+class CCharacter;
 class CPlayer
 {
+	//~CPlayer();
 	friend class TCPSession;
 public:
 	short FindIndexByChaName(string chaname);
 	TCPSession * GetSession() { return m_session; }
 	void SetSession(TCPSession * pSess) { m_session = pSess; }
+	CCharacter * GetCtrlCha(void)const { return m_CCtrlCha.get(); }
+	void SetCtrlCha(CCharacter * pCCtrlCha) { m_CCtrlCha.reset(pCCtrlCha); }
+	CCharacter * GetMainCha(void)const { return m_CCtrlCha.get(); }
+	void SetMainCha(CCharacter * pCCtrlCha) { m_CCtrlCha.reset(pCCtrlCha); }
 	string m_strtime;
 	string m_actname;
 	string m_password;
@@ -23,4 +27,6 @@ public:
 	bool m_bNew;
 private:
 	TCPSession * m_session;
+	std::auto_ptr<CCharacter> m_CCtrlCha;
+	std::auto_ptr<CCharacter> m_CMainCha;
 };

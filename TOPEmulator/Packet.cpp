@@ -1,18 +1,18 @@
 #include "Packet.h"
 
 //WPacket
-WPacket::WPacket() : m_head(6)
+WPacket::WPacket() 
 {
 	m_buffer = new char[64 * 1024];
 	m_wpos = 0;
 }
-WPacket::WPacket(const WPacket & wpkt) : m_head(6)
+WPacket::WPacket(const WPacket & wpkt) 
 {
 	m_buffer = new char[64 * 1024];
 	m_wpos = wpkt.m_wpos;
 	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
 }
-WPacket::WPacket(WPacket && wpkt) : m_head(6)
+WPacket::WPacket(WPacket && wpkt) 
 {
 	m_buffer = wpkt.m_buffer;
 	wpkt.m_buffer = nullptr;
@@ -31,6 +31,12 @@ WPacket & WPacket::operator=(WPacket && wpkt)
 	wpkt.m_buffer = nullptr;
 	m_wpos = wpkt.m_wpos;
 	return *this;
+}
+WPacket::WPacket(const RPacket & rpk)
+{
+	m_buffer = new char[64 * 1024];
+	m_wpos = rpk.getDataLen()-em_cmdsize;
+	memcpy(const_cast<char*>(getDataAddr()), rpk.getDataAddr(), rpk.getDataLen());
 }
 WPacket & WPacket::operator=(const RPacket & rpkt)
 {
@@ -89,9 +95,15 @@ void WPacket::WriteSESS(uint32_t ses)const
 {
 	memcpy(const_cast<char*>(getDataAddr())-sizeof(uint32_t), (char*)&ses, sizeof(uint32_t));
 }
+bool WPacket::WriteLongByIndex(uLong lg, int idx)
+{
+	boost::endian::endian_reverse_inplace<uLong>(lg);
+	memcpy(m_buffer + idx, (cChar*)&lg, sizeof(uLong));
+	return true;
+}
 //--------------- RPacket ----------------
 
-RPacket::RPacket() : m_head(6)
+RPacket::RPacket() 
 {
 	m_buffer = new char[64 * 1024];
 	m_rpos = 0;
@@ -108,7 +120,7 @@ RPacket & RPacket::operator=(const WPacket & wpkt)
 	return *this;
 }
 
-RPacket::RPacket(const WPacket & wpkt) : m_head(6)
+RPacket::RPacket(const WPacket & wpkt) 
 {
 	m_buffer = new char[64 * 1024];
 	m_rpos = 0;
@@ -117,7 +129,16 @@ RPacket::RPacket(const WPacket & wpkt) : m_head(6)
 	memcpy(const_cast<char*>(getDataAddr()), wpkt.getDataAddr(), wpkt.getDataLen());
 }
 
-uShort RPacket::readCmd()
+RPacket::RPacket(const RPacket & rpk)
+{
+	m_buffer = new char[64 * 1024];
+	m_rpos = rpk.m_rpos;
+	m_revpos = rpk.m_revpos;
+	m_len = rpk.m_len;
+	memcpy(const_cast<char *>(getDataAddr()), rpk.getDataAddr(), rpk.getDataLen());
+}
+
+uShort RPacket::ReadCmd()
 {
 	uShort l_cmd;
 	memcpy((char*)&l_cmd, const_cast<char*>(getDataAddr()), sizeof(uShort));

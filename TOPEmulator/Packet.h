@@ -24,12 +24,14 @@ class WPacket
 {
 public:
 	WPacket();
+	~WPacket();
 	WPacket(const WPacket & wpkt);
+	WPacket(const RPacket & rpkt);
 	WPacket(WPacket && wpkt);
-	WPacket & operator=(const WPacket & wpkt);
 	WPacket & operator=(WPacket && wpkt);
-	WPacket(const RPacket &rpk);
+	WPacket & operator=(const WPacket & wpkt);
 	WPacket & operator=(const RPacket & rpkt);
+
 	bool WriteCmd(uShort cmd);
 	bool WriteChar(uChar ch);
 	bool WriteString(cChar * str);
@@ -37,59 +39,52 @@ public:
 	bool WriteShort(uShort sh);
 	bool WriteLong(uLong lg);
 	void WritePktLen() const;
+	void WriteSESS(uint32_t ses) const;
+	bool WriteLongByIndex(uLong lg,int idx);
 	uShort getPktLen()const { return m_head + em_cmdsize + m_wpos; }
 	cChar * getPktAddr()const { return m_buffer; }
-
-	~WPacket();
-	void WriteSESS(uint32_t ses) const;
 	//m_buffer + m_head
-	cChar * getDataAddr() const
-	{
-		return m_buffer + m_head;
-	}
+	cChar * getDataAddr() const { return m_buffer + m_head;	}
 	//em_cmdsize + m_wpos
-	uShort getDataLen() const
-	{
-		return em_cmdsize + m_wpos;
-	}
+	uShort getDataLen() const  { return em_cmdsize + m_wpos; }
 private:
 	char * m_buffer;
-	uShort const m_head;
 	uShort m_wpos;
+	uShort const m_head{6};
 };
 
 class RPacket
 {
 public:
 	RPacket();
-	RPacket(const WPacket& wpkt);
 	~RPacket();
+	RPacket(const WPacket& wpkt);
+	RPacket(const RPacket & rpk);
 	RPacket& operator=(const WPacket& wpkt);
+
 	cChar *	ReadString(uShort len = 0);
 	cChar *	ReadSequence(uShort &retlen);
 	uShort readShort();
 	uLong ReadLong();
 	uChar ReadChar();
-	uShort readCmd();
+	uShort ReadCmd();
 	uShort hasData()const { return (m_len > (m_head + em_cmdsize)) ? (m_len - m_head - em_cmdsize): 0; }
 	uShort reverseReadShot();
 	void readPktLen();
+
 	void WritePktLen(uShort len);
+	void WriteSESS(uint32_t ses) const;
+
 	uShort getPktLen()const { return m_len; }
 	cChar * getPktAddr()const { return m_buffer; }
 	void setPktLen(uShort len) { m_len = len; }
-	void WriteSESS(uint32_t ses) const;
-	cChar * getDataAddr() const
-	{
-		return m_buffer + m_head;
-	}
-	uShort getDataLen() const
-	{
-		return m_len - m_head;
-	}
+	// m_buffer + m_head
+	cChar * getDataAddr() const { return m_buffer + m_head; }
+	// m_len - m_head
+	uShort getDataLen() const { return m_len - m_head; } 
 private:
 	char * m_buffer;
-	uShort const m_head;
 	uShort m_rpos, m_len, m_revpos;
+	uShort const m_head{6};
 };
 

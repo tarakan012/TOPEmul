@@ -1,6 +1,6 @@
 #include "AccountServer.h"
 #include "crypt.h"
-using namespace std;
+
 
 pqxx::connection * g_conpq = new pqxx::connection("dbname=noterius user = nota host=127.0.0.1 password = notadefault");
 
@@ -16,7 +16,6 @@ void AuthThread::queryAccount(CPlayer * ply, RPacket & rpkt)
 	pPass = rpkt.ReadSequence(usBufLen);
 
 	string strMAC = rpkt.ReadString();
-	//BOOST_LOG_TRIVIAL(debug) << "PASSWD " << strEncodePass;
 	ply->m_actname = m_AcctInfo.strName = pName;
 	m_AcctInfo.strEncodePwd = pPass;
 	m_AcctInfo.strChapString = ply->m_strtime;
@@ -29,7 +28,6 @@ void AuthThread::queryAccount(CPlayer * ply, RPacket & rpkt)
 		//m_AcctInfo.nId = pqres[0]["id"].as<uShort>();
 		m_AcctInfo.strPwdDigest = pqres[0]["password"].as<string>();
 		ply->m_acctLoginID = pqres[0]["id"].as<short>();
-	//	BOOST_LOG_TRIVIAL(warning) << "NO USERNAME " << strUserName;
 
 	}
 	else

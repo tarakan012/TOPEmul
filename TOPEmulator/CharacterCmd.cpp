@@ -2,9 +2,10 @@
 #include "SubMap.h"
 #include "MapRes.h"
 #include "GameApp.h"
-
+#include"TCPSession.h"
 CCharacter::CCharacter()
 	: m_CAction(this)
+	, m_pPlayer(nullptr)
 {
 
 }
@@ -15,6 +16,7 @@ bool CCharacter::Cmd_EnterMap(WPACKET & wpkt)
 
 	pCMapRes = g_pCGameApp->FindMapByName("garner");
 	pCMap = pCMapRes->GetCopy();
+	SetSubMap(pCMap);
 	//WPACKET wpkt;
 	WRITE_CMD(wpkt, CMD_SC_ENTERMAP);//+
 	WRITE_SHORT(wpkt, ERR_SUCCESS);//+
@@ -34,9 +36,11 @@ bool CCharacter::Cmd_EnterMap(WPACKET & wpkt)
 	//WRITE_LONG(wpkt, 0);
 	WRITE_CHAR(wpkt, 0);
 	//WRITE_LONG(wpkt, 0);
-	WRITE_LONG(wpkt, 123);
+	WRITE_LONG(wpkt, GetID());
 	Square l_shape{ {224700,224700}, 0 };
-	//pCMap->Enter(&l_shape, this);
+	this->SetPos(l_shape.centre);
+	m_pPlayer->GetSession()->sendData(wpkt);
+	pCMap->Enter(&l_shape, this);
 
 	return true;
 }
@@ -56,5 +60,17 @@ bool CCharacter::Cmd_BeginMove(short sPing, Point * pPoint, char chPointNum, cha
 
 void CCharacter::BeginAction(RPACKET & pk)
 {
+	uLong ulPacketId = READ_LONG(pk);
+	m_ulPacketID = ulPacketId;
+	char chActionType = READ_CHAR(pk);
+	uShort usTurnNum = 0;
+	cChar * pData = READ_SEQ(pk, usTurnNum);
+	Point Path[32];
+	char chPointNum = char(usTurnNum / sizeof(Point));
+	DWORD m_dwPing = 100;
+
+	memcpy(Path, pData, chPointNum * sizeof(Point));
+	Cmd_BeginMove(m_dwPing,Path,chPointNum);
+	//NotiChgToEyeshot(WPACKET(pk));
 
 }

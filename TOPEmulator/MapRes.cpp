@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "MapRes.h"
 #include"SubMap.h"
 CMapRes::CMapRes()

@@ -13,7 +13,9 @@ public:
 	short GetEyeshotCellHeight(void)const { return m_pCMapRes->m_csEyeshotCellHeight; }
 	short GetEyeshotWidth(void)const { return m_pCMapRes->m_emeyeshotwidth; }
 	Rect GetRange()const;
+	void MoveTo(CEntity * pCEnt, Point pSTar);
+	void GoOut(CEntity * pCEnt);
+	CEyeshotCell m_pCEyeshotCell[36][36];
 private:
 	CMapRes *  m_pCMapRes;
-	CEyeshotCell m_pCEyeshotCell[30][30];
 };

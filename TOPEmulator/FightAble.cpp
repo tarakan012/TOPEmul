@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "FightAble.h"
 
 void CFightAble::WriteAttr(WPACKET & pk, short sStartAttr, short sEndAttr, short sSynType)

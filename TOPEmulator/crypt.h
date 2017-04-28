@@ -8,7 +8,7 @@
 
 #include "des.h"
 
-using namespace std;
+
 
 string  EncryptPassword(string&, string&);
 #endif

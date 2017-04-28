@@ -4,26 +4,43 @@
 //
 
 #pragma once
+
 #define NOMINMAX
+//#define BOOST_ASIO_ENABLE_HANDLER_TRACKING
+
 #include "targetver.h"
-#include "LogHundler.h"
+
 #include "boost\asio.hpp"
 #include "boost\format.hpp"
 #include "boost\endian\conversion.hpp"
 #include "boost\log\trivial.hpp"
 #include "boost\log\sources\global_logger_storage.hpp"
+
+using namespace boost;
+
+#include "pqxx\pqxx"
+
+using namespace std;
+
+#include "Typedef.h"
+#include "Logger.h"
 #include "CommCommand.h"
 #include "Player.h"
-#include"Typedef.h"
 #include "Packet.h"
 #include "Point.h"
-#include "pqxx\pqxx"
 #include "NetCommand.h"
 #include "NetRetCommand.h"
+
 #include <stdio.h>
 #include <tchar.h>
+
+
 #include <ctime>
 #include <locale>
+#include <chrono>
+
+using namespace std::chrono;
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -34,8 +51,6 @@
 #include <memory>
 #include <thread>
 #include <vector>
-
-using namespace boost;
-
+#include <map>
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы

@@ -22,19 +22,31 @@
     <Filter Include="Заголовочные файлы\Until">
       <UniqueIdentifier>{66a2c5b7-2784-41f2-b07f-b4ac55972a10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Заголовочные файлы\DB">
+      <UniqueIdentifier>{e300b413-a3f4-421a-a408-6bcc4c61d069}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\TCP">
+      <UniqueIdentifier>{2d1b0a28-74a6-43d8-838a-82098cf3ad8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Character">
+      <UniqueIdentifier>{90977a55-12f2-409a-8b0c-a83647f97786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\DB">
+      <UniqueIdentifier>{c5568550-73f5-40c6-8b7d-ad9af5f75bc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы исходного кода\Utility">
+      <UniqueIdentifier>{036a999e-1a3b-49d7-97b4-657ee36cc7c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Заголовочные файлы\Opcode">
+      <UniqueIdentifier>{9f493ac5-1a86-41cc-a9a0-75b417a3016b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
     <Text Include="TechnicalTask.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Packet.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="NetCommand.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="AccountServer.h">
@@ -46,13 +58,7 @@
     <ClInclude Include="des.h">
       <Filter>Заголовочные файлы\Crypto</Filter>
     </ClInclude>
-    <ClInclude Include="NetRetCommand.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Заголовочные файлы</Filter>
-    </ClInclude>
-    <ClInclude Include="DBConnect.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="ItemContent.h">
@@ -118,13 +124,31 @@
     <ClInclude Include="DataTimeToString.h">
       <Filter>Заголовочные файлы\Until</Filter>
     </ClInclude>
-    <ClInclude Include="LogHundler.h">
-      <Filter>Заголовочные файлы\Until</Filter>
-    </ClInclude>
     <ClInclude Include="EyeshotCell.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
     <ClInclude Include="GameApp.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="GameServerApp.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="GameAppNet.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClInclude>
+    <ClInclude Include="DBConnect.h">
+      <Filter>Заголовочные файлы\DB</Filter>
+    </ClInclude>
+    <ClInclude Include="NetCommand.h">
+      <Filter>Заголовочные файлы\Opcode</Filter>
+    </ClInclude>
+    <ClInclude Include="NetRetCommand.h">
+      <Filter>Заголовочные файлы\Opcode</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Заголовочные файлы\Until</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
   </ItemGroup>
@@ -132,13 +156,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="TCPSession.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Packet.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="DataTimeToString.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="AccountServer.cpp">
@@ -150,28 +168,10 @@
     <ClCompile Include="des.cpp">
       <Filter>Заголовочные файлы\Crypto</Filter>
     </ClCompile>
-    <ClCompile Include="DBConnect.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="CommFunc.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="LogHundler.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterPacket.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterCmd.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="TOPServer.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="TCPServer.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Action.cpp">
@@ -181,9 +181,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Entity.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="FightAble.cpp">
@@ -204,5 +201,49 @@
     <ClCompile Include="Player.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
+    <ClCompile Include="GameServerApp.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDB.h">
+      <Filter>Заголовочные файлы\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPServer.cpp">
+      <Filter>Файлы исходного кода\TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="TCPSession.cpp">
+      <Filter>Файлы исходного кода\TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterCmd.cpp">
+      <Filter>Файлы исходного кода\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Файлы исходного кода\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterPacket.cpp">
+      <Filter>Файлы исходного кода\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterPrl.cpp">
+      <Filter>Файлы исходного кода\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="DBConnect.cpp">
+      <Filter>Файлы исходного кода\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDB.cpp">
+      <Filter>Файлы исходного кода\DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTimeToString.cpp">
+      <Filter>Файлы исходного кода\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="TOPServer.cpp">
+      <Filter>Файлы исходного кода\TCP</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.ini">
+      <Filter>Заголовочные файлы\DB</Filter>
+    </None>
   </ItemGroup>
 </Project>

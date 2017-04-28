@@ -3,32 +3,35 @@
 
 #include "GameApp.h"
 #include "TOPServer.h"
+#include "GameDB.h"
 
 CGameApp * g_pCGameApp = nullptr;
 
-using namespace std;
 
 int main()
 {
-
-	cout << "Start Emulator..." << endl;
 	try
 	{
+		cout << "Start Emulator..." << endl;
+
 		g_pCGameApp = new CGameApp();
-		g_pCGameApp->InitMap();
-		if (nullptr == g_pCGameApp->FindMapByName("garner"))
-		{
-			throw std::invalid_argument("NO find Map");
-		}
-		CLogHandler::GetInstance().Init();
-		LOG_INFO("Log_info %d", 10);
+		g_pCGameApp->Init();
+
+		thread HandleMove(g_GameLogicProcess);
+
+
+		CLogger::GetInstance().Init();
+//		LOG_INFO("Log_info %d", 10);
 		if (!TOPServer::CreateInstance())
 		{
 			cout << "Start Emulator FAIL!" << endl;
 		}
 		TOPServer::Instance()->Init();
-
-		for (;;) { Sleep(1); }
+		string strOutCin;
+		while (getline(cin, strOutCin))
+		{
+			if (strOutCin == "exit") exit(0);
+		}
 	}
 	catch (const std::exception e)
 	{

@@ -19,7 +19,7 @@ bool TOPServer::Init()
 //{
 //	uShort l_cmd = 0;
 //	uShort l_version = 0;
-//	l_cmd = rpkt.readCmd();
+//	l_cmd = rpkt.ReadCmd();
 //	switch (l_cmd)
 //	{
 //	case CMD_CS_LOGOUT:

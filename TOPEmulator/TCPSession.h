@@ -32,8 +32,9 @@ public:
 	void read_packet_len();
 	void read_packet();
 	void OnProccesData(RPacket & rpkt);
-	void OnConnected(WPACKET & lpkt);
+	void OnConnected(void);
 	bool GetChaFromDB(CPlayer * ply, WPACKET & pkt);
+	CPlayer * GetPlayer() const { return m_player.get(); }
 private:
 	asio::io_service & service_;
 	asio::ip::tcp::socket socket_;
@@ -41,6 +42,6 @@ private:
 	AuthThread m_AccAuth;
 	TBLAccounts m_tblaccounts;
 	TBLCharacters m_tblcharacters;
-	CPlayer * m_player;
+	std::auto_ptr<CPlayer> m_player;
 	TOPServer * m_topsvr;
 };

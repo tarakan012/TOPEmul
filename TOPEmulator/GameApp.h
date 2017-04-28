@@ -1,20 +1,24 @@
 #pragma once
 
-#include "MapRes.h"
-#include<string>
-#include<map>
-
+class CMapRes;
 class CGameApp
 {
 public:
-	using NameMapRes = std::map<std::string, CMapRes *>;
-	CMapRes * FindMapByName(std::string mapname);
+	using NameMapRes = map<string, CMapRes *>;
+
+	bool Init();
 	bool InitMap();
-	void AddPlayer(DWORD dwDBID, CPlayer* pPlayer);
-	CPlayer* GetPlayerByDBID(DWORD dwDBID);
+
+	CMapRes * FindMapByName(string mapname);
+	void AddPlayer(DWORD dwDBID, CPlayer * pPlayer);
+	CPlayer * GetPlayerByDBID(DWORD dwDBID);
+	CPlayer * CreateGamePlayer(DWORD ulChaID);
+	void ProcessPacket(TCPSession * pCSession, RPACKET & rpk);
 private:
 	NameMapRes m_MapList;
-	std::map<DWORD, CPlayer*> m_PlayerIdx;
+	map<DWORD, CPlayer *> m_PlayerIdx;
 };
 
 extern CGameApp * g_pCGameApp;
+
+void g_GameLogicProcess();

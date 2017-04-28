@@ -42,7 +42,8 @@ enum EActionType
 
 enum EEntitySeenType
 {
-	enameNTITY_SEEN_NEW = 0
+	enumENTITY_SEEN_NEW = 0,
+	enumENTITY_SEEN_SWITCH
 };
 
 enum EPoseState

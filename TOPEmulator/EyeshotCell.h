@@ -7,11 +7,14 @@ class CCharacter;
 class CEyeshotCell
 {
 public:
+	CEyeshotCell();
 	void EnterEyeshot(CEntity * pCEnt);
 	void AddEntity(CCharacter * pCCha);
+	void DelEntity(CEntity * pCEnt);
+	void OutEyeshot(CEntity * pCEnt);
+	std::vector<CCharacter *> m_ChaList;
+	long m_lChaCount;
 private:
-	std::vector<CCharacter *> m_VecCha;
-	long m_lChaCount{0};
 
 };
 

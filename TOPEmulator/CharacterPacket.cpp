@@ -20,13 +20,13 @@ void CCharacter::WriteSkillState(WPACKET & pkt)
 void CCharacter::WriteBaseInfo(WPACKET & pkt)
 {
 	CPlayer * pCPlayer = GetPlayer();
-	WRITE_LONG(pkt, 1); // 4.22.17 12:48 -  edit 4 to 1 //++
-	//this->SetID(m_pPlayer->m_bpcurrcha);
+	WRITE_LONG(pkt, 4); // 4.22.17 12:48 -  edit 4 to 1 //++
+	//this->SetID(m_pPlayer->m_chaid[1]);
 	WRITE_LONG(pkt, GetID()); //id ++
 	if (true)//pCPlayer
 	{
 		WRITE_LONG(pkt, GetID()); //id ++
-		WRITE_STRING(pkt, "tarakan"); //name ++
+		WRITE_STRING(pkt, GetName().c_str()); //name ++
 		WRITE_CHAR(pkt, 99); // gmlvl 4.22.17 12:48 -  edit 0 to 99
 
 	}
@@ -36,9 +36,9 @@ void CCharacter::WriteBaseInfo(WPACKET & pkt)
 	}
 	WRITE_LONG(pkt, 11437); //handle ++
 	WRITE_CHAR(pkt, 1); //chatype ++
-	WRITE_STRING(pkt, "tarakan");// ++
+	WRITE_STRING(pkt, GetName().c_str());// ++
 	WRITE_STRING(pkt, "");// motto ++
-	WRITE_SHORT(pkt, 1); //icon 4.22.17 12:48 -  edit 4 to 1 //++
+	WRITE_SHORT(pkt, 4); //icon 4.22.17 12:48 -  edit 4 to 1 //++
 	WRITE_LONG(pkt, 0);//guildid +
 	WRITE_STRING(pkt, "guildname");// +
 	WRITE_STRING(pkt, "");//guildmotto +

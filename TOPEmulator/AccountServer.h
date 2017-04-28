@@ -1,7 +1,7 @@
 #pragma once
 
 
-using namespace std;
+
 
 extern pqxx::connection * g_conpq;
 

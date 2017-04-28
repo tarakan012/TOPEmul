@@ -1,7 +1,7 @@
 #include "CommFunc.h"
 
 
-using namespace std;
+
 
 char * LookDataString(const stNetChangeChaPart * pLook, char * szLookBuf)
 {

@@ -5,6 +5,7 @@
 #include "CommFunc.h"
 #include <regex>
 #include "Point.h"
+#include "GameApp.h"
 
 char pong[] = { '0','2'};
 
@@ -34,19 +35,20 @@ TCPSession::TCPSession(boost::asio::io_service & service)
 }
 void TCPSession::Start(TOPServer * topsvr)
 {
+	cout << "Client connect: " << socket_.remote_endpoint().address().to_string() << endl;
 	m_topsvr = topsvr;
-	WPACKET l_wpt;
-	OnConnected(l_wpt);
-	sendData(l_wpt);
+	OnConnected();
 	read_packet_len();
 }
 
-void TCPSession::OnConnected(WPACKET & lpkt)
+void TCPSession::OnConnected()
 {
-	m_player = new CPlayer;
-	lpkt.WriteCmd(CMD_SC_CHAPSTR);
+	WPACKET l_wpk;
+	m_player.reset(new CPlayer());
+	l_wpk.WriteCmd(CMD_SC_CHAPSTR);
 	m_player->m_strtime = dataTimeToString(now(), "[%m-%d %H:%M:%S:100]"); // milisecond?
-	lpkt.WriteString(m_player->m_strtime.c_str());
+	l_wpk.WriteString(m_player->m_strtime.c_str());
+	this->sendData(l_wpk);
 }
 
 void TCPSession::sendData(WPACKET & wpkt)
@@ -55,7 +57,7 @@ void TCPSession::sendData(WPACKET & wpkt)
 	wpkt.WritePktLen();
 	asio::async_write(socket_, asio::buffer(wpkt.getPktAddr(), wpkt.getPktLen()), [wpkt](boost::system::error_code const & error, size_t bytes_xfer)
 	{
-		outHexByCout(wpkt.getPktAddr(), wpkt.getPktLen());
+		//outHexByCout(wpkt.getPktAddr(), wpkt.getPktLen());
 	});
 }
 
@@ -93,7 +95,7 @@ void TCPSession::read_packet()
 			memcpy(const_cast<char*>(l_rpkt.getPktAddr()) + 2, my->get_receive_buffer(), l_pktlen - 2);
 			l_rpkt.setPktLen(l_pktlen);
 			l_rpkt.WritePktLen(l_pktlen);
-			outHexByCout(l_rpkt.getPktAddr(), l_rpkt.getPktLen());
+			//outHexByCout(l_rpkt.getPktAddr(), l_rpkt.getPktLen());
 			my->OnProccesData(l_rpkt);
 			my->read_packet_len();
 		});
@@ -104,33 +106,22 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 {
 	uShort l_cmd = 0;
 	uShort l_version = 0;
-	l_cmd = rpkt.readCmd();
+	l_cmd = rpkt.ReadCmd();
 	switch (l_cmd)
 	{
 	case CMD_CS_BEGINACTION :
 	{
+
+		CCharacter * l_cha = m_player->GetCtrlCha();
+		l_cha->SetPlayer(m_player.get());
 		uLong ulWorldID = READ_LONG(rpkt);
-		uLong ulPacketID = READ_LONG(rpkt);
-		char chActionType = READ_CHAR(rpkt);
-		uShort usTurnNum = 0;
-		cChar * pData = READ_SEQ(rpkt, usTurnNum);
-		Point Path[32];
-		char chPointNum = char(usTurnNum / sizeof(Point));
-		memcpy(Path, pData, chPointNum * sizeof(Point));
-		CCharacter l_cha;
-		DWORD m_dwPing =100;
+		l_cha->BeginAction(rpkt);
+		
 //		l_cha.Cmd_BeginMove(m_dwPing, Path, chPointNum);
 //		sendData(l_cha.GetNotiWPacketForSend());
 
-		WPACKET pk;
-		WRITE_CMD(pk, CMD_SC_NOTIACTION);
-		WRITE_LONG(pk, 123);//id
-		WRITE_LONG(pk, ulPacketID);//idpacket
-		WRITE_CHAR(pk, enumACTION_MOVE);
-		WRITE_SHORT(pk, 1);
-		WRITE_SHORT(pk, 1);//stop
-		WRITE_SEQ(pk, (cChar *)Path, chPointNum * sizeof(Point));
-		sendData(pk);
+
+//		sendData(pk);
 		break;
 	}
 		case CMD_CS_LOGOUT :
@@ -143,12 +134,12 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 			short l_len = 0;
 			cChar * l_chaname = READ_STRING(rpkt);
 			m_player->m_bpcurrcha = m_player->FindIndexByChaName(l_chaname);
-			CCharacter l_cha;
+			CCharacter * l_cha = new CCharacter();
+			m_player->SetCtrlCha(l_cha);
 			m_player->SetSession(this);
-			l_cha.SetPlayer(m_player);
-			WPACKET wpkt;
-			l_cha.Cmd_EnterMap(wpkt);
-			sendData(wpkt);
+			l_cha->SetPlayer(m_player.get());
+			g_pCGameApp->ProcessPacket(this, rpkt);
+			
 			//l_cha.SetID(3);
 			//l_cha.OnBeginSeen(0);
 			break;
@@ -161,7 +152,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 			{
 				return;
 			}
-			m_AccAuth.queryAccount(m_player, rpkt);
+			m_AccAuth.queryAccount(m_player.get(), rpkt);
 			WPACKET wpkt;
 			wpkt = m_AccAuth.accountLogin();
 			if (l_errno = RPacket(wpkt).readShort())
@@ -173,7 +164,7 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 			}
 			cChar l_key[] = { 0x00, 0x08, 0x7C, 0x35, 0x09, 0x19, 0xB2, 0x50, 0xD3, 0x49 };
 			wpkt.WriteSequence(l_key, 10); // 
-			GetChaFromDB(m_player, wpkt);
+			GetChaFromDB(m_player.get(), wpkt);
 			BYTE byPassword = 1; 
 			/*if (m_player->m_password == "0")
 			{
@@ -243,6 +234,8 @@ void TCPSession::OnProccesData(RPacket & rpkt)
 		}
 		default:
 		{
+			CCharacter * pCCha = m_player->GetCtrlCha();
+			pCCha->ProcessPacket(l_cmd, rpkt);
 			break;
 		}
 	}

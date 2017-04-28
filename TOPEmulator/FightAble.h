@@ -9,6 +9,7 @@ public:
 
 	void Test(){}
 	void WriteAttr(WPACKET & pk, short sStartAttr, short sEndAttr, short sSynType);
+	uLong m_ulPacketID;
 private:
 	CChaAttr m_CChaAttr;
 };

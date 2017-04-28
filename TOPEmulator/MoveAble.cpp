@@ -1,10 +1,18 @@
 #include "MoveAble.h"
+#include "Character.h"
+#include "SubMap.h"
 
 CMoveAble::CMoveAble()
 {
+	 m_attr_mspd = 700; // --
+
 	m_usHeartbeatFre = 0;
 	m_SMoveInit.STargetInfo.chType = 0;
-	m_shape.centre = Point{ 224700, 270400 };
+	m_SMoveProc.sState = enumMSTATE_ARRIVE;
+	m_SMoveProc.chRequestState = 0;
+	m_ulHeartbeatTick = 0;
+	m_bOnMove = false;
+	//m_shape.centre = Point{ 224700, 270400 };
 }
 
 void CMoveAble::DesireMoveBegin(SMoveInit * pSMoveInit)
@@ -24,33 +32,93 @@ void CMoveAble::BeginMove()
 		m_SMoveInit.SInflexionInfo.SList[0];//--
 		m_SMoveInit.SInflexionInfo.sNum += 1;
 	}
-	GetPos() = m_SMoveInit.SInflexionInfo.SList[0];//--
+
+	SetPos(m_SMoveInit.SInflexionInfo.SList[0]);//--
 	m_SMoveProc.sCurInflexion = 1;
+	if (m_SMoveProc.chRequestState == 1)
+	{
+
+	}
+	else
+	{
+		m_SMoveProc.sState = enumMSTATE_ON;
+	}
+	m_ulHeartbeatTick = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
 	m_usHeartbeatFre = 300;
 	m_SMoveRedu.ulLeftTime = m_usHeartbeatFre + m_SMoveInit.usPing;
-	long attr_mspd = 1500; // --
-	uLong ulAttemtDist = m_SMoveRedu.ulLeftTime * attr_mspd / 1000;
+	uLong ulAttemtDist = m_SMoveRedu.ulLeftTime * m_attr_mspd / 1000;
 	m_SMoveProc.sState |= AttemptMove(ulAttemtDist, false);
 	if (m_SMoveProc.ulElapse > 0)
 	{
 		NotiMovToEyeshot();
+		if (m_SMoveProc.sState != enumMSTATE_ON)
+		{
+
+		}
+		else
+		{
+			m_bOnMove = true;
+		}
 	}
+	/*m_SMoveProc.sNoticePoint.sNum = m_SMoveInit.SInflexionInfo.sNum;
+	memcpy(&m_SMoveProc.sNoticePoint.SList,&m_SMoveInit.SInflexionInfo.SList, m_SMoveInit.SInflexionInfo.sNum * sizeof(Point));
+	m_pCSubMap->MoveTo(this, m_SMoveInit.SInflexionInfo.SList[1]);*/
+	//NotiMovToEyeshot();
+}
+
+void CMoveAble::OnMove(uLong dwCurTime)
+{
+	if (!m_bOnMove) return;
+	uLong ulCurTick = duration_cast<milliseconds>(steady_clock::now().time_since_epoch()).count();
+	uLong ulWillElapce = ulCurTick - m_ulHeartbeatTick;
+	uLong ulAttemptDist = 0;
+	m_ulHeartbeatTick = ulCurTick;
+	bool bAttemtMove = false;
+	if (m_SMoveProc.sState == enumMSTATE_ON)
+	{
+		ulAttemptDist = ulWillElapce * m_attr_mspd / 1000;
+		if (ulAttemptDist > 0)
+		{
+			m_SMoveProc.sState = AttemptMove(ulAttemptDist,false);
+			bAttemtMove = true;
+		}
+
+	}
+	if (bAttemtMove)
+	{
+		NotiMovToEyeshot();
+	}
+	if (m_SMoveProc.sState != enumMSTATE_ON)
+	{
+		m_bOnMove = false;
+	}
+	if (bAttemtMove)//--
+	{
+
+	}
+}
+
+void CMoveAble::EndMove()
+{
+	m_SMoveProc.chRequestState = 1;
+
 }
 
 void CMoveAble::NotiMovToEyeshot()
 {
 	WPACKET pk;
 	WRITE_CMD(pk, CMD_SC_NOTIACTION);
-	WRITE_LONG(pk, 0);
-	WRITE_LONG(pk, 1);
+	WRITE_LONG(pk, m_ID);
+	WRITE_LONG(pk, m_ulPacketID);
 	WRITE_CHAR(pk, enumACTION_MOVE);
-	WRITE_SHORT(pk, m_SMoveProc.sState);
-	if (m_SMoveProc.sState != enumMSTATE_ON)
+	WRITE_SHORT(pk,1);//m_SMoveProc.sState
+	if (m_SMoveProc.sState != enumMSTATE_ON)//
 	{
 		WRITE_SHORT(pk, m_SMoveInit.sStopState);
 	}
 	WRITE_SEQ(pk, (cChar *)m_SMoveProc.sNoticePoint.SList, m_SMoveProc.sNoticePoint.sNum * sizeof(Point));
-	ReflectINFof(this, pk);
+	NotiChgToEyeshot(pk);
+//	ReflectINFof(this, pk);
 }
 
 cChar CMoveAble::AttemptMove(uLong ulPreMoveDist, bool bNotiInflexion)
@@ -77,8 +145,12 @@ cChar CMoveAble::AttemptMove(uLong ulPreMoveDist, bool bNotiInflexion)
 	lPreMoveDist = ulPreMoveDist;
 	while (true)
 	{
+		if (dCurStep > dLeftDist)
+		{
+			dCurStep = dLeftDist;
+		}
 		chAttemtMove = LinearAttemtMove(SAttemtTar, dCurStep, &ulElapce);
-		m_SMoveProc.ulElapse += ulElapce;
+		m_SMoveProc.ulElapse += ulElapce; // 9128
 		lDistX2 = (SSrc.x - GetPos().x)*(SSrc.x - GetPos().x);
 		lDistY2 = (SSrc.y - GetPos().y)*(SSrc.y - GetPos().y);
 		lMoveDist += std::sqrt(lDistY2 + lDistX2);
@@ -103,6 +175,13 @@ cChar CMoveAble::AttemptMove(uLong ulPreMoveDist, bool bNotiInflexion)
 				break;
 			}
 		}
+
+		dLeftDist -= sqrt((SSrc.x - SPos.x)*(SSrc.x - SPos.x) +
+			(SSrc.y - SPos.y) * (SSrc.y - SPos.y));
+		if (dLeftDist < 1)
+		{
+			break;
+		}
 		SSrc = SPos;
 	}
 	SPos = GetShape().centre;
@@ -112,7 +191,7 @@ cChar CMoveAble::AttemptMove(uLong ulPreMoveDist, bool bNotiInflexion)
 			= SPos;
 	}
 	m_shape.centre = SBeforePos;
-
+	//m_pCSubMap->MoveTo(this, SPos);
 	return chRet;
 }
 
